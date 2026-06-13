@@ -16,12 +16,10 @@ header h1{font-size:20px;font-weight:600;letter-spacing:.02em}
 .page{display:none;padding:16px;max-width:100%;margin:0 auto}
 .page.active{display:block}
 
-/* NORMAL SPINNER LAYOUT — responsive */
 #spinner-normal{display:grid;grid-template-columns:1fr 240px;gap:16px;align-items:start;width:100%}
 #s-left{display:flex;flex-direction:column;align-items:center;gap:12px;width:100%}
 #wheel-wrap{position:relative;width:100%;max-width:min(calc(100vh - 280px), calc(100vw - 290px));aspect-ratio:1}
 #wheelCanvas{width:100%;height:100%;display:block}
-#pointer{position:absolute;top:50%;right:-3%;transform:translateY(-50%);width:0;height:0;border-top:2.5% solid transparent;border-bottom:2.5% solid transparent;border-right:5% solid #333;border-top-width:clamp(12px,2%,20px);border-bottom-width:clamp(12px,2%,20px);border-right-width:clamp(24px,4%,40px)}
 #spin-btn{padding:12px 44px;font-size:16px;font-weight:600;border-radius:10px;border:none;background:#333;color:#fff;cursor:pointer;width:100%;max-width:400px}
 #spin-btn:hover{background:#555}
 #spin-btn:disabled{opacity:0.4;cursor:default}
@@ -30,7 +28,6 @@ header h1{font-size:20px;font-weight:600;letter-spacing:.02em}
 #focus-mode-btn{padding:9px 18px;font-size:13px;border-radius:8px;border:1px solid #ccc;background:#fff;cursor:pointer;width:100%;max-width:400px}
 #focus-mode-btn:hover{background:#f0f0f0}
 
-/* RIGHT COLUMN */
 #s-right-col{display:flex;flex-direction:column;gap:10px;height:100%}
 #called-box{background:#fff;border-radius:12px;border:2px solid #333;box-shadow:0 2px 10px rgba(0,0,0,0.12);overflow:hidden;flex:1;display:flex;flex-direction:column;min-height:300px}
 #called-box-header{background:#333;color:#fff;padding:10px 14px;font-size:14px;font-weight:700;letter-spacing:.04em;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
@@ -51,7 +48,6 @@ textarea{width:100%;font-size:12px;padding:5px 7px;border-radius:6px;border:1px 
 .btn-sm-dark{padding:5px 8px;font-size:11px;border-radius:6px;border:none;background:#333;color:#fff;cursor:pointer;width:100%}
 .btn-sm-dark:hover{background:#555}
 
-/* FOCUS MODE */
 body.focus-mode header,body.focus-mode .tabs{display:none}
 body.focus-mode .page{padding:0;max-width:100%}
 body.focus-mode #spinner-normal{display:none}
@@ -76,7 +72,6 @@ body.focus-mode #spinner-focus{display:flex}
 #exit-focus-btn{padding:8px 14px;font-size:12px;border-radius:8px;border:1px solid #555;background:#2a2a2a;color:#ccc;cursor:pointer;width:100%}
 #exit-focus-btn:hover{background:#333}
 
-/* BINGO CARDS */
 #card-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:#fff;padding:16px;border-radius:12px;border:1px solid #ddd;margin-bottom:20px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
 #card-controls label{font-size:13px;color:#555}
 #card-controls input,#card-controls select{padding:6px 9px;border:1px solid #ccc;border-radius:7px;font-size:13px}
@@ -117,13 +112,10 @@ body.focus-mode #spinner-focus{display:flex}
 </div>
 
 <div class="page active" id="page-spinner">
-
-  <!-- NORMAL MODE -->
   <div id="spinner-normal">
     <div id="s-left">
       <div id="wheel-wrap">
         <canvas id="wheelCanvas"></canvas>
-        <div id="pointer"></div>
       </div>
       <div id="s-count">24 options remaining</div>
       <div id="result-box">Spin to begin!</div>
@@ -132,10 +124,7 @@ body.focus-mode #spinner-focus{display:flex}
     </div>
     <div id="s-right-col">
       <div id="called-box">
-        <div id="called-box-header">
-          Already Called
-          <span id="called-count-badge">0</span>
-        </div>
+        <div id="called-box-header">Already Called<span id="called-count-badge">0</span></div>
         <div id="called-inner">
           <div id="called-empty">Nothing called yet</div>
           <div id="called-list"></div>
@@ -152,26 +141,17 @@ body.focus-mode #spinner-focus{display:flex}
     </div>
   </div>
 
-  <!-- FOCUS MODE -->
   <div id="spinner-focus">
     <div id="focus-left">
       <div id="focus-result">Spin to begin!</div>
-      <div id="focus-wheel-wrap">
-        <canvas id="fwc"></canvas>
-        <div id="focus-pointer"></div>
-      </div>
+      <div id="focus-wheel-wrap"><canvas id="fwc"></canvas></div>
       <div id="focus-count">24 options remaining</div>
       <button id="focus-spin-btn">Spin</button>
     </div>
     <div id="focus-right">
       <div id="focus-called-box">
-        <div id="focus-called-header">
-          Already Called
-          <span id="focus-called-count">0</span>
-        </div>
-        <div id="focus-called-inner">
-          <div id="focus-called-list"></div>
-        </div>
+        <div id="focus-called-header">Already Called<span id="focus-called-count">0</span></div>
+        <div id="focus-called-inner"><div id="focus-called-list"></div></div>
       </div>
       <button id="exit-focus-btn" onclick="exitFocus()">✕ Exit focus mode</button>
     </div>
@@ -180,8 +160,7 @@ body.focus-mode #spinner-focus{display:flex}
 
 <div class="page" id="page-cards">
   <div id="card-controls">
-    <label>Cards:</label>
-    <input type="number" id="num-cards" value="4" min="1" max="30">
+    <label>Cards:</label><input type="number" id="num-cards" value="4" min="1" max="30">
     <label>Format:</label>
     <select id="fmt">
       <option value="mixed">Mixed (decimals &amp; %)</option>
@@ -199,10 +178,15 @@ var COLORS=['#E74C3C','#E67E22','#F1C40F','#2ECC71','#1ABC9C','#3498DB','#9B59B6
 var DEFAULT_ITEMS=['1 in 2','1 in 3','2 in 3','1 in 4','3 in 4','1 in 5','2 in 5','3 in 5','4 in 5','1 in 6','5 in 6','1 in 8','3 in 8','5 in 8','7 in 8','1 in 10','3 in 10','7 in 10','9 in 10','1 in 20','1 in 25','1 in 100','99 in 100','100 in 100'];
 var items=DEFAULT_ITEMS.slice();
 var called=[];
+var pendingWinner=null; // winner held until next spin
 var spinning=false;
 var angle=0;
 var actx=null;
 var focusMode=false;
+var flapAngle=0; // current flapper deflection angle (radians)
+var flapVel=0;   // flapper angular velocity
+var flapRest=0.08; // resting angle (slightly angled down)
+var lastSegIdx=-1;
 
 var normalCanvas=document.getElementById('wheelCanvas');
 var ncx=normalCanvas.getContext('2d');
@@ -214,7 +198,6 @@ var resultBox=document.getElementById('result-box');
 var focusResult=document.getElementById('focus-result');
 var ta=document.getElementById('ta');
 
-// Size canvases to their containers
 function sizeCanvases(){
   var nw=document.getElementById('wheel-wrap');
   var s=nw.offsetWidth;
@@ -231,14 +214,8 @@ function switchTab(t){
   document.querySelectorAll('.page').forEach(function(el){el.classList.remove('active');});
   document.getElementById('page-'+t).classList.add('active');
 }
-function enterFocus(){
-  focusMode=true;document.body.classList.add('focus-mode');
-  setTimeout(function(){sizeCanvases();},50);
-}
-function exitFocus(){
-  focusMode=false;document.body.classList.remove('focus-mode');
-  setTimeout(function(){sizeCanvases();},50);
-}
+function enterFocus(){focusMode=true;document.body.classList.add('focus-mode');setTimeout(function(){sizeCanvases();},50);}
+function exitFocus(){focusMode=false;document.body.classList.remove('focus-mode');setTimeout(function(){sizeCanvases();},50);}
 document.getElementById('focus-mode-btn').onclick=enterFocus;
 
 function getAC(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx;}
@@ -246,24 +223,29 @@ function getAC(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContex
 function tick(){
   try{
     var ac=getAC();
-    var len=Math.floor(ac.sampleRate*0.028);
+    var len=Math.floor(ac.sampleRate*0.05);
     var buf=ac.createBuffer(1,len,ac.sampleRate);
     var d=buf.getChannelData(0);
     for(var i=0;i<len;i++){
       var t=i/ac.sampleRate;
-      var decay=Math.exp(-t*180);
-      var noise=(Math.random()*2-1);
-      var body=Math.sin(2*Math.PI*180*t);
-      d[i]=(noise*0.6+body*0.4)*decay;
+      var transient=Math.exp(-t*600)*(Math.random()*2-1)*1.0;
+      var ring1=Math.sin(2*Math.PI*3200*t)*Math.exp(-t*180)*0.6;
+      var ring2=Math.sin(2*Math.PI*5800*t)*Math.exp(-t*250)*0.35;
+      var ring3=Math.sin(2*Math.PI*8400*t)*Math.exp(-t*320)*0.2;
+      var body=Math.sin(2*Math.PI*420*t)*Math.exp(-t*90)*0.3;
+      d[i]=transient+ring1+ring2+ring3+body;
     }
     var src=ac.createBufferSource();
-    var hp=ac.createBiquadFilter();hp.type='highpass';hp.frequency.value=300;
-    var pk=ac.createBiquadFilter();pk.type='peaking';pk.frequency.value=2000;pk.gain.value=10;pk.Q.value=1.5;
+    var hp=ac.createBiquadFilter();hp.type='highpass';hp.frequency.value=800;hp.Q.value=0.5;
+    var pk=ac.createBiquadFilter();pk.type='peaking';pk.frequency.value=4000;pk.gain.value=6;pk.Q.value=2;
+    var lp=ac.createBiquadFilter();lp.type='lowpass';lp.frequency.value=9000;
     var g=ac.createGain();
-    src.buffer=buf;src.connect(hp);hp.connect(pk);pk.connect(g);g.connect(ac.destination);
-    g.gain.setValueAtTime(0.9,ac.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.028);
+    src.buffer=buf;src.connect(hp);hp.connect(pk);pk.connect(lp);lp.connect(g);g.connect(ac.destination);
+    g.gain.setValueAtTime(0.28,ac.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.05);
     src.start();
+    // kick flapper on each tick
+    flapVel=-0.55;
   }catch(e){}
 }
 
@@ -280,17 +262,74 @@ function winSound(){
   }catch(e){}
 }
 
+function updateFlapper(dt){
+  // spring back to rest, damped
+  var spring=12.0;
+  var damping=0.72;
+  var accel=-spring*(flapAngle-flapRest);
+  flapVel=flapVel*damping+accel*dt;
+  flapAngle+=flapVel*dt;
+  // clamp
+  if(flapAngle>flapRest+0.55)flapAngle=flapRest+0.55;
+  if(flapAngle<flapRest-0.72)flapAngle=flapRest-0.72;
+}
+
+function drawFlapper(context,R){
+  var flapLen=R*0.16;
+  var flapBase=R*0.06;
+  var pivotX=R*1.09;
+  var pivotY=0;
+
+  context.save();
+  context.translate(pivotX,pivotY);
+  context.rotate(flapAngle);
+
+  // triangle body
+  context.beginPath();
+  context.moveTo(0,-flapBase/2);
+  context.lineTo(0, flapBase/2);
+  context.lineTo(-flapLen,0);
+  context.closePath();
+  var triGrad=context.createLinearGradient(-flapLen,0,0,0);
+  triGrad.addColorStop(0,'#1a1a2e');
+  triGrad.addColorStop(0.4,'#3a3a52');
+  triGrad.addColorStop(1,'#2a2a3e');
+  context.fillStyle=triGrad;
+  context.shadowColor='rgba(0,0,0,0.6)';context.shadowBlur=4;context.shadowOffsetX=1;context.shadowOffsetY=1;
+  context.fill();
+  context.strokeStyle='rgba(255,255,255,0.15)';context.lineWidth=0.8;context.stroke();
+  context.restore();
+
+  // screw
+  context.save();
+  context.translate(pivotX,pivotY);
+  context.beginPath();
+  context.arc(0,0,flapBase*0.35,0,2*Math.PI);
+  var screwGrad=context.createRadialGradient(-1,-1,0,0,0,flapBase*0.35);
+  screwGrad.addColorStop(0,'#d0d8e0');screwGrad.addColorStop(1,'#4a5560');
+  context.fillStyle=screwGrad;
+  context.shadowColor='rgba(0,0,0,0.4)';context.shadowBlur=3;
+  context.fill();
+  context.shadowBlur=0;
+  var sr=flapBase*0.18;
+  context.strokeStyle='rgba(255,255,255,0.45)';context.lineWidth=0.8;
+  context.beginPath();context.moveTo(-sr,0);context.lineTo(sr,0);context.stroke();
+  context.beginPath();context.moveTo(0,-sr);context.lineTo(0,sr);context.stroke();
+  context.restore();
+}
+
 function drawWheelOnCtx(context,size,R){
   var W=size/2,H=size/2;
   context.clearRect(0,0,size,size);
   if(!items.length){
     context.beginPath();context.arc(W,H,R,0,2*Math.PI);context.fillStyle='#ccc';context.fill();
-    context.fillStyle='#555';context.font='bold 18px sans-serif';context.textAlign='center';context.fillText('No options!',W,H);return;
+    context.fillStyle='#555';context.font='bold 18px sans-serif';context.textAlign='center';context.fillText('No options!',W,H);
+    return;
   }
   var seg=2*Math.PI/items.length;
+  var seg=2*Math.PI/items.length;
   items.forEach(function(item,i){
-    var s=angle+i*seg,e=s+seg;
-    context.beginPath();context.moveTo(W,H);context.arc(W,H,R,s,e);context.closePath();
+    var s=angle+i*seg,e=s+seg;    context.beginPath();context.moveTo(W,H);context.arc(W,H,R,s,e);context.closePath();
     context.fillStyle=COLORS[i%COLORS.length];context.fill();
     context.strokeStyle='rgba(255,255,255,0.5)';context.lineWidth=1.5;context.stroke();
     context.save();context.translate(W,H);context.rotate(s+seg/2);context.textAlign='right';
@@ -303,12 +342,36 @@ function drawWheelOnCtx(context,size,R){
     context.fillStyle='#fff';context.fillText(lbl,R-12,fs/3);
     context.restore();
   });
+  // pegs — simple black dots at segment boundaries
+  var pegR=R*0.018;
+  for(var p=0;p<items.length;p++){
+    var pegAngle=angle+p*seg;
+    var pegX=W+Math.cos(pegAngle)*(R-pegR);
+    var pegY=H+Math.sin(pegAngle)*(R-pegR);
+    context.beginPath();context.arc(pegX,pegY,pegR,0,2*Math.PI);
+    context.fillStyle='#111';context.fill();
+  }
+
+  // centre cap
   context.beginPath();context.arc(W,H,R*0.06,0,2*Math.PI);context.fillStyle='#fff';context.fill();
   context.strokeStyle='rgba(0,0,0,0.15)';context.lineWidth=2;context.stroke();
+
+  // pointer arrow
+  var px=W+R+R*0.07,ph=R*0.09;
+  context.beginPath();
+  context.moveTo(px+ph*1.8,H);context.lineTo(px,H-ph);context.lineTo(px,H+ph);
+  context.closePath();context.fillStyle='#222';
+  context.shadowColor='rgba(0,0,0,0.4)';context.shadowBlur=4;context.fill();context.shadowBlur=0;
+
+  // flapper
+  context.save();context.translate(W,H);
+  drawFlapper(context,R);
+  context.restore();
+  context.shadowBlur=0;context.shadowOffsetX=0;context.shadowOffsetY=0;
 }
 
-function drawWheel(){var s=normalCanvas.width;drawWheelOnCtx(ncx,s,s/2*0.96);}
-function drawFocusWheel(){var s=focusCanvas.width;drawWheelOnCtx(fcx,s,s/2*0.96);}
+function drawWheel(){var s=normalCanvas.width;drawWheelOnCtx(ncx,s,s/2*0.82);}
+function drawFocusWheel(){var s=focusCanvas.width;drawWheelOnCtx(fcx,s,s/2*0.82);}
 function drawBoth(){drawWheel();if(focusMode)drawFocusWheel();}
 
 function renderList(){
@@ -347,44 +410,93 @@ document.getElementById('add-btn').onclick=function(){
   items=items.concat(parsed);ta.value='';drawBoth();renderList();
 };
 document.getElementById('reset-btn').onclick=function(){
-  items=DEFAULT_ITEMS.slice();called=[];angle=0;
+  items=DEFAULT_ITEMS.slice();called=[];pendingWinner=null;angle=0;
   resultBox.textContent='Spin to begin!';focusResult.textContent='Spin to begin!';
   drawBoth();renderList();renderCalled();
 };
 
+var lastTime=null;
 function doSpin(){
   if(spinning||!items.length)return;
+
+  // remove previous winner NOW (before new spin)
+  if(pendingWinner!==null){
+    var idx=items.indexOf(pendingWinner);
+    if(idx!==-1)items.splice(idx,1);
+    pendingWinner=null;
+    renderList();
+  }
+  if(!items.length){drawBoth();return;}
+
   spinning=true;spinBtn.disabled=true;focusSpinBtn.disabled=true;
   resultBox.textContent='Spinning…';focusResult.textContent='Spinning…';
+
   var totalRot=Math.PI*2*6+Math.random()*Math.PI*2;
   var dur=3000+Math.random()*1500;
-  var t0=performance.now(),lastSeg=-1,segSize=2*Math.PI/items.length;
+  var t0=performance.now();
+  lastTime=t0;
+  lastSegIdx=-1;
+  var segSize=2*Math.PI/items.length;
+
   function frame(now){
+    var dt=Math.min((now-(lastTime||now))/1000,0.05);
+    lastTime=now;
+    updateFlapper(dt);
+
     var p=Math.min((now-t0)/dur,1),ease=1-Math.pow(1-p,4);
     angle=ease*totalRot;
+
+    // detect segment crossing for tick + flapper kick
     var cs=Math.floor(angle/segSize);
-    if(cs!==lastSeg){tick();lastSeg=cs;}
+    if(cs!==lastSegIdx){tick();lastSegIdx=cs;}
+
     drawBoth();
-    if(p<1){requestAnimationFrame(frame);}
-    else{
-      var fa=((-angle)%(2*Math.PI)+2*Math.PI)%(2*Math.PI);
-      var idx=Math.floor(fa/segSize)%items.length;
-      var winner=items[idx];
+
+    if(p<1){
+      requestAnimationFrame(frame);
+    } else {
+      // figure out winner
+      var normalised=(angle%(2*Math.PI)+2*Math.PI)%(2*Math.PI);
+      var winner=null,winIdx=0;
+      for(var ii=0;ii<items.length;ii++){
+        var segStart=(normalised+ii*segSize)%(2*Math.PI);
+        var segEnd=(normalised+(ii+1)*segSize)%(2*Math.PI);
+        if(segStart>segEnd){if(0>=segStart||0<segEnd){winIdx=ii;break;}}
+        else{if(0>=segStart&&0<segEnd){winIdx=ii;break;}}
+      }
+      winner=items[winIdx];
       winSound();
-      resultBox.textContent='🎉 '+winner;focusResult.textContent='🎉 '+winner;
-      called.unshift(winner);items.splice(idx,1);
+      pendingWinner=winner;
+      called.unshift(winner);
       angle=angle%(2*Math.PI);
-      drawBoth();renderList();renderCalled();
+      resultBox.textContent='🎉 '+winner;
+      focusResult.textContent='🎉 '+winner;
+      renderCalled();
+      // keep flapper animating after stop
       spinning=false;
-      if(items.length){spinBtn.disabled=false;focusSpinBtn.disabled=false;}
+      if(items.length>1)spinBtn.disabled=false;
+      focusSpinBtn.disabled=false;
+      animateFlapper();
     }
   }
   requestAnimationFrame(frame);
 }
+
+function animateFlapper(){
+  var prev=performance.now();
+  function loop(now){
+    var dt=Math.min((now-prev)/1000,0.05);prev=now;
+    updateFlapper(dt);
+    drawBoth();
+    var diff=Math.abs(flapAngle-flapRest)+Math.abs(flapVel);
+    if(diff>0.002)requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+}
+
 spinBtn.onclick=doSpin;
 focusSpinBtn.onclick=doSpin;
 
-// Init
 setTimeout(function(){sizeCanvases();renderList();renderCalled();},100);
 
 // ---- BINGO CARDS ----
