@@ -39,15 +39,15 @@ body.focus-mode #spinner-focus{display:flex}
 /* NORMAL SPINNER */
 #spinner-normal{display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap}
 #s-left{display:flex;flex-direction:column;align-items:center;gap:14px}
-#wheel-wrap{position:relative;width:480px;height:480px}
-#pointer{position:absolute;top:50%;right:-22px;transform:translateY(-50%);width:0;height:0;border-top:17px solid transparent;border-bottom:17px solid transparent;border-right:34px solid #333}
+#wheel-wrap{position:relative;width:620px;height:620px}
+#pointer{position:absolute;top:50%;right:-24px;transform:translateY(-50%);width:0;height:0;border-top:19px solid transparent;border-bottom:19px solid transparent;border-right:38px solid #333}
 #spin-btn{padding:12px 44px;font-size:16px;font-weight:600;border-radius:10px;border:none;background:#333;color:#fff;cursor:pointer}
 #spin-btn:hover{background:#555}
 #spin-btn:disabled{opacity:0.4;cursor:default}
-#result-box{min-height:54px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;background:#fff;border-radius:10px;padding:10px 20px;width:480px;text-align:center;border:1px solid #ddd;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
-#focus-mode-btn{padding:9px 18px;font-size:13px;border-radius:8px;border:1px solid #ccc;background:#fff;cursor:pointer;width:480px}
+#result-box{min-height:54px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;background:#fff;border-radius:10px;padding:10px 20px;width:620px;text-align:center;border:1px solid #ddd;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+#focus-mode-btn{padding:9px 18px;font-size:13px;border-radius:8px;border:1px solid #ccc;background:#fff;cursor:pointer;width:620px}
 #focus-mode-btn:hover{background:#f0f0f0}
-#s-right{flex:1;min-width:220px;display:flex;flex-direction:column;gap:12px;background:#fff;border-radius:12px;padding:16px;border:1px solid #ddd;box-shadow:0 1px 4px rgba(0,0,0,0.06);max-height:580px;overflow-y:auto}
+#s-right{width:200px;flex-shrink:0;display:flex;flex-direction:column;gap:8px;background:#fff;border-radius:12px;padding:12px;border:1px solid #ddd;box-shadow:0 1px 4px rgba(0,0,0,0.06);max-height:680px;overflow-y:auto}
 .plabel{font-size:11px;color:#888;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px}
 #s-items{display:flex;flex-direction:column;gap:4px;max-height:180px;overflow-y:auto}
 .s-row{display:flex;align-items:center;justify-content:space-between;padding:5px 8px;border-radius:6px;background:#f7f7f7;font-size:13px}
@@ -56,10 +56,10 @@ body.focus-mode #spinner-focus{display:flex}
 #called-list{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
 .badge{font-size:11px;padding:3px 9px;border-radius:999px;background:#f0f0f0;color:#666;border:1px solid #e0e0e0}
 #s-count{font-size:12px;color:#888;text-align:center}
-textarea{width:100%;font-size:13px;padding:7px 9px;border-radius:8px;border:1px solid #ccc;resize:vertical;font-family:inherit}
-.btn-outline{padding:7px 14px;font-size:13px;border-radius:8px;border:1px solid #ccc;background:#fff;cursor:pointer;width:100%}
+textarea{width:100%;font-size:12px;padding:5px 7px;border-radius:8px;border:1px solid #ccc;resize:vertical;font-family:inherit}
+.btn-outline{padding:6px 10px;font-size:12px;border-radius:8px;border:1px solid #ccc;background:#fff;cursor:pointer;width:100%}
 .btn-outline:hover{background:#f5f5f5}
-.btn-dark{padding:7px 14px;font-size:13px;border-radius:8px;border:none;background:#333;color:#fff;cursor:pointer;width:100%}
+.btn-dark{padding:6px 10px;font-size:12px;border-radius:8px;border:none;background:#333;color:#fff;cursor:pointer;width:100%}
 .btn-dark:hover{background:#555}
 
 /* BINGO CARDS */
@@ -110,7 +110,7 @@ textarea{width:100%;font-size:13px;padding:7px 9px;border-radius:8px;border:1px 
   <div id="spinner-normal">
     <div id="s-left">
       <div id="wheel-wrap">
-        <canvas id="wc" width="480" height="480"></canvas>
+        <canvas id="wc" width="620" height="620"></canvas>
         <div id="pointer"></div>
       </div>
       <div id="s-count">24 options remaining</div>
@@ -259,7 +259,7 @@ function drawWheelOnCtx(context,size,R){
   context.strokeStyle='rgba(0,0,0,0.15)';context.lineWidth=2;context.stroke();
 }
 
-function drawWheel(){drawWheelOnCtx(cx,480,228);}
+function drawWheel(){drawWheelOnCtx(cx,620,298);}
 function drawFocusWheel(){drawWheelOnCtx(fcx,520,248);}
 function drawBoth(){drawWheel();if(focusMode)drawFocusWheel();}
 
