@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Probability Bingo</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:#f4f4f4;color:#222;min-height:100vh}
+header{background:#333;color:#fff;padding:16px 24px;display:flex;align-items:center;gap:16px}
+header h1{font-size:22px;font-weight:600;letter-spacing:.02em}
+header p{font-size:13px;color:#aaa}
+.tabs{display:flex;gap:0;background:#222;padding:0 24px}
+.tab{padding:12px 24px;font-size:14px;font-weight:500;color:#aaa;cursor:pointer;border-bottom:3px solid transparent;transition:all .15s}
+.tab.active{color:#fff;border-bottom:3px solid #fff}
+.tab:hover:not(.active){color:#ddd}
+.page{display:none;padding:24px;max-width:900px;margin:0 auto}
+.page.active{display:block}
+
+/* SPINNER */
+#spinner-app{display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap}
+#s-left{display:flex;flex-direction:column;align-items:center;gap:14px}
+#wheel-wrap{position:relative;width:320px;height:320px}
+#pointer{position:absolute;top:50%;right:-20px;transform:translateY(-50%);width:0;height:0;border-top:15px solid transparent;border-bottom:15px solid transparent;border-right:30px solid #333}
+#spin-btn{padding:11px 36px;font-size:15px;font-weight:600;border-radius:10px;border:none;background:#333;color:#fff;cursor:pointer;transition:background .15s}
+#spin-btn:hover{background:#555}
+#spin-btn:disabled{opacity:0.4;cursor:default}
+#result-box{min-height:52px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:600;background:#fff;border-radius:10px;padding:10px 20px;width:320px;text-align:center;border:1px solid #ddd;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+#s-right{flex:1;min-width:220px;display:flex;flex-direction:column;gap:12px;background:#fff;border-radius:12px;padding:16px;border:1px solid #ddd;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.plabel{font-size:11px;color:#888;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px}
+#s-items{display:flex;flex-direction:column;gap:4px;max-height:200px;overflow-y:auto}
+.s-row{display:flex;align-items:center;justify-content:space-between;padding:5px 8px;border-radius:6px;background:#f7f7f7;font-size:13px}
+.s-row button{background:none;border:none;cursor:pointer;color:#aaa;font-size:14px}
+.s-row button:hover{color:#333}
+#called-list{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+.badge{font-size:11px;padding:3px 9px;border-radius:999px;background:#f0f0f0;color:#666;border:1px solid #e0e0e0}
+#s-count{font-size:12px;color:#888;text-align:center}
+textarea{width:100%;font-size:13px;padding:7px 9px;border-radius:8px;border:1px solid #ccc;resize:vertical;font-family:inherit}
+.btn-outline{padding:7px 14px;font-size:13px;border-radius:8px;border:1px solid #ccc;background:#fff;cursor:pointer;width:100%}
+.btn-outline:hover{background:#f5f5f5}
+.btn-dark{padding:7px 14px;font-size:13px;border-radius:8px;border:none;background:#333;color:#fff;cursor:pointer;width:100%}
+.btn-dark:hover{background:#555}
+
+/* BINGO CARDS */
+#card-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:#fff;padding:16px;border-radius:12px;border:1px solid #ddd;margin-bottom:20px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+#card-controls label{font-size:13px;color:#555}
+#card-controls input,#card-controls select{padding:6px 9px;border:1px solid #ccc;border-radius:7px;font-size:13px}
+#card-controls input{width:65px}
+.btn-gen{padding:8px 20px;font-size:13px;border-radius:8px;border:none;background:#333;color:#fff;cursor:pointer}
+.btn-gen:hover{background:#555}
+.btn-print{padding:8px 20px;font-size:13px;border-radius:8px;border:1px solid #ccc;background:#fff;cursor:pointer}
+.btn-print:hover{background:#f5f5f5}
+#cards-wrap{display:flex;flex-wrap:wrap;gap:24px}
+.card{border:2px solid #333;border-radius:8px;overflow:hidden;width:320px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.card-title{background:#333;color:#fff;text-align:center;padding:9px;font-size:15px;font-weight:700;letter-spacing:.06em}
+.card-sub{background:#555;color:#ddd;text-align:center;padding:4px;font-size:11px}
+.bingo-hdr{display:grid;grid-template-columns:repeat(5,1fr);background:#444}
+.bingo-hdr div{text-align:center;padding:9px 0;font-size:17px;font-weight:800;color:#fff}
+.bingo-grid{display:grid;grid-template-columns:repeat(5,1fr)}
+.cell{border:0.5px solid #ccc;text-align:center;padding:6px 2px;font-size:12px;font-weight:600;min-height:52px;display:flex;align-items:center;justify-content:center;color:#222;line-height:1.3}
+.cell.free{background:#f5f5f5;font-size:11px;font-weight:700;color:#666}
+.card-num{text-align:right;font-size:10px;color:#bbb;padding:5px 10px}
+
+@media print{
+  header,.tabs,#card-controls,#spinner-wrap{display:none!important}
+  .page{display:block!important;padding:0}
+  #cards-wrap{gap:0}
+  .card{page-break-after:always;width:100%;border-radius:0;box-shadow:none}
+  .cell{min-height:64px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>🎰 Probability Bingo</h1>
+    <p>Spin the wheel &amp; generate bingo cards for your class</p>
+  </div>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('spinner')">Spinner Wheel</div>
+  <div class="tab" onclick="switchTab('cards')">Bingo Cards</div>
+</div>
+
+<!-- SPINNER PAGE -->
+<div class="page active" id="page-spinner">
+  <div id="spinner-app">
+    <div id="s-left">
+      <div id="wheel-wrap">
+        <canvas id="wc" width="320" height="320"></canvas>
+        <div id="pointer"></div>
+      </div>
+      <div id="s-count">30 options remaining</div>
+      <div id="result-box">Spin to begin!</div>
+      <button id="spin-btn">Spin</button>
+    </div>
+    <div id="s-right">
+      <div class="plabel">Add options</div>
+      <textarea id="ta" rows="4" placeholder="Paste options here&#10;One per line or comma separated"></textarea>
+      <button class="btn-dark" id="add-btn">+ Add to wheel</button>
+      <div class="plabel">On wheel</div>
+      <div id="s-items"></div>
+      <div class="plabel" style="margin-top:4px">Already called</div>
+      <div id="called-list"></div>
+      <button class="btn-outline" id="reset-btn" style="margin-top:4px">↺ Reset all</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARDS PAGE -->
+<div class="page" id="page-cards">
+  <div id="card-controls">
+    <label>Cards:</label>
+    <input type="number" id="num-cards" value="4" min="1" max="30">
+    <label>Format:</label>
+    <select id="fmt">
+      <option value="mixed">Mixed (decimals &amp; %)</option>
+      <option value="decimal">Decimals only</option>
+      <option value="percent">Percentages only</option>
+    </select>
+    <button class="btn-gen" onclick="generateCards()">Generate</button>
+    <button class="btn-print" onclick="window.print()">🖨 Print</button>
+  </div>
+  <div id="cards-wrap"></div>
+</div>
+
+<script>
+// ---- TABS ----
+function switchTab(t){
+  document.querySelectorAll('.tab').forEach(function(el,i){el.classList.toggle('active',['spinner','cards'][i]===t);});
+  document.querySelectorAll('.page').forEach(function(el){el.classList.remove('active');});
+  document.getElementById('page-'+t).classList.add('active');
+}
+
+// ---- SPINNER ----
+var COLORS=['#E74C3C','#E67E22','#F1C40F','#2ECC71','#1ABC9C','#3498DB','#9B59B6','#FF6B6B','#48C9B0','#F39C12','#27AE60','#2980B9','#8E44AD','#D35400','#16A085','#C0392B','#7D3C98','#117A65','#1F618D','#B7950B'];
+var items=Array.from({length:30},function(_,i){return String(i+1);});
+var called=[];
+var spinning=false;
+var angle=0;
+var actx=null;
+
+var cv=document.getElementById('wc');
+var cx=cv.getContext('2d');
+var spinBtn=document.getElementById('spin-btn');
+var resultBox=document.getElementById('result-box');
+var ta=document.getElementById('ta');
+
+function getAC(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx;}
+function tick(){
+  try{
+    var ac=getAC();
+    var buf=ac.createBuffer(1,Math.floor(ac.sampleRate*0.015),ac.sampleRate);
+    var d=buf.getChannelData(0);
+    for(var i=0;i<d.length;i++){var x=1-i/d.length;d[i]=(Math.random()*2-1)*x*x*0.9;}
+    var src=ac.createBufferSource(),g=ac.createGain(),f=ac.createBiquadFilter();
+    f.type='bandpass';f.frequency.value=1800;f.Q.value=0.8;
+    src.buffer=buf;src.connect(f);f.connect(g);g.connect(ac.destination);
+    g.gain.setValueAtTime(0.55,ac.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.015);
+    src.start();
+  }catch(e){}
+}
+function winSound(){
+  try{
+    var ac=getAC();
+    [523,659,784,1047].forEach(function(fr,i){
+      var o=ac.createOscillator(),g=ac.createGain();
+      o.connect(g);g.connect(ac.destination);o.type='sine';o.frequency.value=fr;
+      var t=ac.currentTime+i*0.12;
+      g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(0.18,t+0.05);
+      g.gain.exponentialRampToValueAtTime(0.001,t+0.25);o.start(t);o.stop(t+0.3);
+    });
+  }catch(e){}
+}
+function drawWheel(){
+  var W=160,H=160,R=148;
+  cx.clearRect(0,0,320,320);
+  if(!items.length){
+    cx.beginPath();cx.arc(W,H,R,0,2*Math.PI);cx.fillStyle='#ccc';cx.fill();
+    cx.fillStyle='#555';cx.font='bold 16px sans-serif';cx.textAlign='center';cx.fillText('No options!',W,H);return;
+  }
+  var seg=2*Math.PI/items.length;
+  items.forEach(function(item,i){
+    var s=angle+i*seg,e=s+seg;
+    cx.beginPath();cx.moveTo(W,H);cx.arc(W,H,R,s,e);cx.closePath();
+    cx.fillStyle=COLORS[i%COLORS.length];cx.fill();
+    cx.strokeStyle='rgba(255,255,255,0.5)';cx.lineWidth=1.5;cx.stroke();
+    cx.save();cx.translate(W,H);cx.rotate(s+seg/2);cx.textAlign='right';
+    var fs=items.length>20?11:items.length>10?13:15;
+    cx.font=fs+'px sans-serif';cx.fillStyle='#fff';
+    cx.shadowColor='rgba(0,0,0,0.4)';cx.shadowBlur=3;
+    var lbl=item.length>9?item.slice(0,8)+'…':item;
+    cx.fillText(lbl,R-8,fs/3);cx.restore();
+  });
+  cx.beginPath();cx.arc(W,H,14,0,2*Math.PI);cx.fillStyle='#fff';cx.fill();
+  cx.strokeStyle='rgba(0,0,0,0.15)';cx.lineWidth=1.5;cx.stroke();
+}
+function renderList(){
+  var el=document.getElementById('s-items');el.innerHTML='';
+  items.forEach(function(item,i){
+    var row=document.createElement('div');row.className='s-row';
+    row.innerHTML='<span>'+item+'</span><button onclick="removeItem('+i+')">✕</button>';
+    el.appendChild(row);
+  });
+  document.getElementById('s-count').textContent=items.length+' option'+(items.length!==1?'s':'')+' remaining';
+  spinBtn.disabled=items.length===0;
+}
+function renderCalled(){
+  var el=document.getElementById('called-list');el.innerHTML='';
+  called.forEach(function(c){var b=document.createElement('span');b.className='badge';b.textContent=c;el.appendChild(b);});
+}
+window.removeItem=function(i){items.splice(i,1);drawWheel();renderList();};
+document.getElementById('add-btn').onclick=function(){
+  var parsed=ta.value.split(/[\n,]+/).map(function(s){return s.trim();}).filter(Boolean);
+  if(!parsed.length)return;
+  items=items.concat(parsed);ta.value='';drawWheel();renderList();
+};
+document.getElementById('reset-btn').onclick=function(){
+  items=Array.from({length:30},function(_,i){return String(i+1);});
+  called=[];angle=0;resultBox.textContent='Spin to begin!';
+  drawWheel();renderList();renderCalled();
+};
+spinBtn.onclick=function(){
+  if(spinning||!items.length)return;
+  spinning=true;spinBtn.disabled=true;resultBox.textContent='Spinning…';
+  var totalRot=Math.PI*2*6+Math.random()*Math.PI*2;
+  var dur=3000+Math.random()*1500;
+  var t0=performance.now(),lastSeg=-1,segSize=2*Math.PI/items.length;
+  function frame(now){
+    var p=Math.min((now-t0)/dur,1),ease=1-Math.pow(1-p,4);
+    angle=ease*totalRot;
+    var cs=Math.floor(angle/segSize);
+    if(cs!==lastSeg){tick();lastSeg=cs;}
+    drawWheel();
+    if(p<1){requestAnimationFrame(frame);}
+    else{
+      var fa=((-angle)%(2*Math.PI)+2*Math.PI)%(2*Math.PI);
+      var idx=Math.floor(fa/segSize)%items.length;
+      var winner=items[idx];
+      winSound();resultBox.textContent='🎉 '+winner;
+      called.unshift(winner);items.splice(idx,1);
+      angle=angle%(2*Math.PI);
+      drawWheel();renderList();renderCalled();
+      spinning=false;if(items.length)spinBtn.disabled=false;
+    }
+  }
+  requestAnimationFrame(frame);
+};
+drawWheel();renderList();renderCalled();
+
+// ---- BINGO CARDS ----
+var decimals=['0.5','0.33','0.67','0.25','0.75','0.2','0.4','0.6','0.8','0.17','0.83','0.125','0.375','0.625','0.875','0.1','0.3','0.7','0.9','0.05','0.04','0.01','0.99','1.0'];
+var percents=['50%','33%','67%','25%','75%','20%','40%','60%','80%','17%','83%','12.5%','37.5%','62.5%','87.5%','10%','30%','70%','90%','5%','4%','1%','99%','100%'];
+
+function shuffle(arr){
+  var a=arr.slice();
+  for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}
+  return a;
+}
+function getPool(fmt){
+  if(fmt==='decimal')return decimals.slice();
+  if(fmt==='percent')return percents.slice();
+  var pool=[];
+  for(var i=0;i<decimals.length;i++)pool.push(Math.random()<0.5?decimals[i]:percents[i]);
+  return pool;
+}
+function makeCard(num,fmt){
+  var picks=shuffle(getPool(fmt)).slice(0,24);
+  picks.splice(12,0,'FREE');
+  var card=document.createElement('div');card.className='card';
+  card.innerHTML='<div class="card-title">PROBABILITY BINGO</div>'+
+    '<div class="card-sub">Mark off each value as it is called</div>'+
+    '<div class="bingo-hdr"><div>B</div><div>I</div><div>N</div><div>G</div><div>O</div></div>'+
+    '<div class="bingo-grid" id="g'+num+'"></div>'+
+    '<div class="card-num">Card #'+num+'</div>';
+  var grid=card.querySelector('#g'+num);
+  picks.forEach(function(val){
+    var cell=document.createElement('div');
+    cell.className='cell'+(val==='FREE'?' free':'');
+    cell.textContent=val==='FREE'?'FREE\nSPACE':val;
+    if(val==='FREE')cell.style.whiteSpace='pre';
+    grid.appendChild(cell);
+  });
+  return card;
+}
+function generateCards(){
+  var n=Math.min(Math.max(parseInt(document.getElementById('num-cards').value)||1,1),30);
+  var fmt=document.getElementById('fmt').value;
+  var wrap=document.getElementById('cards-wrap');wrap.innerHTML='';
+  for(var i=1;i<=n;i++)wrap.appendChild(makeCard(i,fmt));
+}
+generateCards();
+</script>
+</body>
+</html>
