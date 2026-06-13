@@ -13,65 +13,68 @@ header h1{font-size:20px;font-weight:600;letter-spacing:.02em}
 .tab{padding:11px 24px;font-size:14px;font-weight:500;color:#aaa;cursor:pointer;border-bottom:3px solid transparent;transition:all .15s}
 .tab.active{color:#fff;border-bottom:3px solid #fff}
 .tab:hover:not(.active){color:#ddd}
-.page{display:none;padding:20px 24px;max-width:1200px;margin:0 auto}
+.page{display:none;padding:16px;max-width:100%;margin:0 auto}
 .page.active{display:block}
 
-/* FOCUS MODE */
-body.focus-mode header,body.focus-mode .tabs{display:none}
-body.focus-mode .page{max-width:100%;padding:0}
-body.focus-mode #spinner-normal{display:none}
-body.focus-mode #spinner-focus{display:flex}
-#spinner-focus{display:none;flex-direction:column;align-items:center;min-height:100vh;background:#1a1a1a;padding:20px;gap:16px}
-#focus-pointer{position:absolute;top:50%;right:-24px;transform:translateY(-50%);width:0;height:0;border-top:18px solid transparent;border-bottom:18px solid transparent;border-right:36px solid #fff}
-#focus-result{font-size:28px;font-weight:700;color:#fff;text-align:center;min-height:44px}
-#focus-spin-btn{padding:14px 56px;font-size:18px;font-weight:700;border-radius:12px;border:none;background:#fff;color:#222;cursor:pointer}
-#focus-spin-btn:hover{background:#eee}
-#focus-spin-btn:disabled{opacity:0.4;cursor:default}
-#focus-called-wrap{width:100%;max-width:680px}
-#focus-called-label{font-size:12px;color:#888;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
-#focus-called-list{display:flex;flex-wrap:wrap;gap:6px}
-.focus-badge{font-size:13px;padding:4px 12px;border-radius:999px;background:#333;color:#ccc;border:1px solid #444}
-#focus-count{font-size:13px;color:#888}
-#exit-focus-btn{position:fixed;top:12px;right:16px;padding:7px 14px;font-size:12px;border-radius:8px;border:1px solid #555;background:#2a2a2a;color:#ccc;cursor:pointer;z-index:999}
-#exit-focus-btn:hover{background:#333}
-
-/* NORMAL SPINNER LAYOUT */
-#spinner-normal{display:flex;gap:20px;align-items:flex-start}
-#s-left{display:flex;flex-direction:column;align-items:center;gap:12px;flex-shrink:0}
-#wheel-wrap{position:relative;width:560px;height:560px}
-#pointer{position:absolute;top:50%;right:-24px;transform:translateY(-50%);width:0;height:0;border-top:19px solid transparent;border-bottom:19px solid transparent;border-right:38px solid #333}
-#spin-btn{padding:12px 44px;font-size:16px;font-weight:600;border-radius:10px;border:none;background:#333;color:#fff;cursor:pointer}
+/* NORMAL SPINNER LAYOUT — responsive */
+#spinner-normal{display:grid;grid-template-columns:1fr 240px;gap:16px;align-items:start;width:100%}
+#s-left{display:flex;flex-direction:column;align-items:center;gap:12px;width:100%}
+#wheel-wrap{position:relative;width:100%;max-width:min(calc(100vh - 280px), calc(100vw - 290px));aspect-ratio:1}
+#wheelCanvas{width:100%;height:100%;display:block}
+#pointer{position:absolute;top:50%;right:-3%;transform:translateY(-50%);width:0;height:0;border-top:2.5% solid transparent;border-bottom:2.5% solid transparent;border-right:5% solid #333;border-top-width:clamp(12px,2%,20px);border-bottom-width:clamp(12px,2%,20px);border-right-width:clamp(24px,4%,40px)}
+#spin-btn{padding:12px 44px;font-size:16px;font-weight:600;border-radius:10px;border:none;background:#333;color:#fff;cursor:pointer;width:100%;max-width:400px}
 #spin-btn:hover{background:#555}
 #spin-btn:disabled{opacity:0.4;cursor:default}
-#result-box{min-height:54px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;background:#fff;border-radius:10px;padding:10px 20px;width:560px;text-align:center;border:1px solid #ddd;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
-#focus-mode-btn{padding:9px 18px;font-size:13px;border-radius:8px;border:1px solid #ccc;background:#fff;cursor:pointer;width:560px}
+#result-box{min-height:54px;display:flex;align-items:center;justify-content:center;font-size:clamp(16px,2.5vw,26px);font-weight:700;background:#fff;border-radius:10px;padding:10px 20px;width:100%;max-width:400px;text-align:center;border:1px solid #ddd;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+#s-count{font-size:12px;color:#888;text-align:center}
+#focus-mode-btn{padding:9px 18px;font-size:13px;border-radius:8px;border:1px solid #ccc;background:#fff;cursor:pointer;width:100%;max-width:400px}
 #focus-mode-btn:hover{background:#f0f0f0}
 
 /* RIGHT COLUMN */
-#s-right-col{display:flex;flex-direction:column;gap:10px;width:230px;flex-shrink:0;align-self:stretch}
-
-/* CALLED BOX — prominent, top */
-#called-box{background:#fff;border-radius:12px;border:2px solid #333;box-shadow:0 2px 10px rgba(0,0,0,0.12);overflow:hidden;flex:1;display:flex;flex-direction:column}
+#s-right-col{display:flex;flex-direction:column;gap:10px;height:100%}
+#called-box{background:#fff;border-radius:12px;border:2px solid #333;box-shadow:0 2px 10px rgba(0,0,0,0.12);overflow:hidden;flex:1;display:flex;flex-direction:column;min-height:300px}
 #called-box-header{background:#333;color:#fff;padding:10px 14px;font-size:14px;font-weight:700;letter-spacing:.04em;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
 #called-count-badge{background:#fff;color:#333;border-radius:999px;font-size:12px;font-weight:700;padding:2px 9px}
 #called-inner{padding:10px;flex:1;overflow-y:auto}
 #called-empty{font-size:12px;color:#bbb;font-style:italic;text-align:center;padding:12px 0}
 #called-list{display:flex;flex-wrap:wrap;gap:6px}
 .called-badge{font-size:13px;font-weight:600;padding:5px 12px;border-radius:8px;background:#f0f0f0;color:#222;border:1px solid #ddd}
-
-/* ADD OPTIONS BOX — compact, bottom */
-#s-right{background:#fff;border-radius:10px;padding:10px;border:1px solid #ddd;display:flex;flex-direction:column;gap:6px;flex-shrink:0}
+#s-right{background:#fff;border-radius:10px;padding:10px;border:1px solid #ddd;display:flex;flex-direction:column;gap:6px}
 .plabel{font-size:10px;color:#999;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
-#s-items{display:flex;flex-direction:column;gap:3px;max-height:100px;overflow-y:auto}
+#s-items{display:flex;flex-direction:column;gap:3px;max-height:80px;overflow-y:auto}
 .s-row{display:flex;align-items:center;justify-content:space-between;padding:4px 7px;border-radius:5px;background:#f7f7f7;font-size:12px}
 .s-row button{background:none;border:none;cursor:pointer;color:#bbb;font-size:13px;line-height:1}
 .s-row button:hover{color:#333}
-#s-count{font-size:11px;color:#aaa;text-align:center}
-textarea{width:100%;font-size:12px;padding:5px 7px;border-radius:6px;border:1px solid #ccc;resize:none;font-family:inherit;height:56px}
+textarea{width:100%;font-size:12px;padding:5px 7px;border-radius:6px;border:1px solid #ccc;resize:none;font-family:inherit;height:50px}
 .btn-sm{padding:5px 8px;font-size:11px;border-radius:6px;border:1px solid #ccc;background:#fff;cursor:pointer;width:100%}
 .btn-sm:hover{background:#f5f5f5}
 .btn-sm-dark{padding:5px 8px;font-size:11px;border-radius:6px;border:none;background:#333;color:#fff;cursor:pointer;width:100%}
 .btn-sm-dark:hover{background:#555}
+
+/* FOCUS MODE */
+body.focus-mode header,body.focus-mode .tabs{display:none}
+body.focus-mode .page{padding:0;max-width:100%}
+body.focus-mode #spinner-normal{display:none}
+body.focus-mode #spinner-focus{display:flex}
+#spinner-focus{display:none;flex-direction:row;align-items:center;justify-content:center;min-height:100vh;background:#1a1a1a;padding:20px;gap:24px;flex-wrap:wrap}
+#focus-left{display:flex;flex-direction:column;align-items:center;gap:14px;flex:1;min-width:300px}
+#focus-wheel-wrap{position:relative;width:min(70vh,70vw);height:min(70vh,70vw)}
+#fwc{width:100%;height:100%;display:block}
+#focus-pointer{position:absolute;top:50%;right:-4%;transform:translateY(-50%);width:0;height:0;border-top:clamp(14px,2.5%,22px) solid transparent;border-bottom:clamp(14px,2.5%,22px) solid transparent;border-right:clamp(28px,5%,44px) solid #fff}
+#focus-result{font-size:clamp(20px,3vw,36px);font-weight:700;color:#fff;text-align:center;min-height:48px}
+#focus-spin-btn{padding:14px 56px;font-size:18px;font-weight:700;border-radius:12px;border:none;background:#fff;color:#222;cursor:pointer;width:100%;max-width:340px}
+#focus-spin-btn:hover{background:#eee}
+#focus-spin-btn:disabled{opacity:0.4;cursor:default}
+#focus-count{font-size:13px;color:#888}
+#focus-right{width:260px;flex-shrink:0;display:flex;flex-direction:column;gap:8px;align-self:stretch}
+#focus-called-box{background:#2a2a2a;border:1px solid #444;border-radius:12px;overflow:hidden;flex:1;display:flex;flex-direction:column}
+#focus-called-header{background:#444;color:#fff;padding:10px 14px;font-size:13px;font-weight:700;letter-spacing:.04em;display:flex;justify-content:space-between}
+#focus-called-count{background:#fff;color:#333;border-radius:999px;font-size:11px;font-weight:700;padding:2px 8px}
+#focus-called-inner{padding:10px;flex:1;overflow-y:auto}
+#focus-called-list{display:flex;flex-wrap:wrap;gap:5px}
+.focus-badge{font-size:13px;padding:4px 12px;border-radius:999px;background:#333;color:#ccc;border:1px solid #444}
+#exit-focus-btn{padding:8px 14px;font-size:12px;border-radius:8px;border:1px solid #555;background:#2a2a2a;color:#ccc;cursor:pointer;width:100%}
+#exit-focus-btn:hover{background:#333}
 
 /* BINGO CARDS */
 #card-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:#fff;padding:16px;border-radius:12px;border:1px solid #ddd;margin-bottom:20px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
@@ -94,7 +97,7 @@ textarea{width:100%;font-size:12px;padding:5px 7px;border-radius:6px;border:1px 
 .card-num{text-align:right;font-size:10px;color:#bbb;padding:5px 10px}
 
 @media print{
-  header,.tabs,#card-controls,#spinner-normal,#spinner-focus,#exit-focus-btn{display:none!important}
+  header,.tabs,#card-controls,#spinner-normal,#spinner-focus{display:none!important}
   .page{display:block!important;padding:0}
   #cards-wrap{gap:0}
   .card{page-break-after:always;width:100%;border-radius:0;box-shadow:none}
@@ -108,7 +111,6 @@ textarea{width:100%;font-size:12px;padding:5px 7px;border-radius:6px;border:1px 
   <h1>🎰 Probability Bingo</h1>
   <span style="font-size:13px;color:#aaa">Spin the wheel &amp; generate bingo cards</span>
 </header>
-
 <div class="tabs">
   <div class="tab active" onclick="switchTab('spinner')">Spinner Wheel</div>
   <div class="tab" onclick="switchTab('cards')">Bingo Cards</div>
@@ -116,10 +118,11 @@ textarea{width:100%;font-size:12px;padding:5px 7px;border-radius:6px;border:1px 
 
 <div class="page active" id="page-spinner">
 
+  <!-- NORMAL MODE -->
   <div id="spinner-normal">
     <div id="s-left">
       <div id="wheel-wrap">
-        <canvas id="wc" width="560" height="560"></canvas>
+        <canvas id="wheelCanvas"></canvas>
         <div id="pointer"></div>
       </div>
       <div id="s-count">24 options remaining</div>
@@ -127,9 +130,7 @@ textarea{width:100%;font-size:12px;padding:5px 7px;border-radius:6px;border:1px 
       <button id="spin-btn">Spin</button>
       <button id="focus-mode-btn">⛶ Enter focus mode</button>
     </div>
-
     <div id="s-right-col">
-      <!-- CALLED BOX — top, large -->
       <div id="called-box">
         <div id="called-box-header">
           Already Called
@@ -140,8 +141,6 @@ textarea{width:100%;font-size:12px;padding:5px 7px;border-radius:6px;border:1px 
           <div id="called-list"></div>
         </div>
       </div>
-
-      <!-- ADD OPTIONS — bottom, compact -->
       <div id="s-right">
         <div class="plabel">Add options</div>
         <textarea id="ta" placeholder="Paste options — one per line or comma separated"></textarea>
@@ -155,17 +154,26 @@ textarea{width:100%;font-size:12px;padding:5px 7px;border-radius:6px;border:1px 
 
   <!-- FOCUS MODE -->
   <div id="spinner-focus">
-    <button id="exit-focus-btn" onclick="exitFocus()">✕ Exit focus mode</button>
-    <div id="focus-result">Spin to begin!</div>
-    <div style="position:relative">
-      <canvas id="fwc" width="520" height="520"></canvas>
-      <div id="focus-pointer"></div>
+    <div id="focus-left">
+      <div id="focus-result">Spin to begin!</div>
+      <div id="focus-wheel-wrap">
+        <canvas id="fwc"></canvas>
+        <div id="focus-pointer"></div>
+      </div>
+      <div id="focus-count">24 options remaining</div>
+      <button id="focus-spin-btn">Spin</button>
     </div>
-    <div id="focus-count">24 options remaining</div>
-    <button id="focus-spin-btn">Spin</button>
-    <div id="focus-called-wrap">
-      <div id="focus-called-label">Already called</div>
-      <div id="focus-called-list"></div>
+    <div id="focus-right">
+      <div id="focus-called-box">
+        <div id="focus-called-header">
+          Already Called
+          <span id="focus-called-count">0</span>
+        </div>
+        <div id="focus-called-inner">
+          <div id="focus-called-list"></div>
+        </div>
+      </div>
+      <button id="exit-focus-btn" onclick="exitFocus()">✕ Exit focus mode</button>
     </div>
   </div>
 </div>
@@ -196,40 +204,69 @@ var angle=0;
 var actx=null;
 var focusMode=false;
 
-var cv=document.getElementById('wc');
-var cx=cv.getContext('2d');
-var fcv=document.getElementById('fwc');
-var fcx=fcv.getContext('2d');
+var normalCanvas=document.getElementById('wheelCanvas');
+var ncx=normalCanvas.getContext('2d');
+var focusCanvas=document.getElementById('fwc');
+var fcx=focusCanvas.getContext('2d');
 var spinBtn=document.getElementById('spin-btn');
 var focusSpinBtn=document.getElementById('focus-spin-btn');
 var resultBox=document.getElementById('result-box');
 var focusResult=document.getElementById('focus-result');
 var ta=document.getElementById('ta');
 
+// Size canvases to their containers
+function sizeCanvases(){
+  var nw=document.getElementById('wheel-wrap');
+  var s=nw.offsetWidth;
+  normalCanvas.width=s;normalCanvas.height=s;
+  var fw=document.getElementById('focus-wheel-wrap');
+  var fs=fw.offsetWidth;
+  focusCanvas.width=fs;focusCanvas.height=fs;
+  drawBoth();
+}
+window.addEventListener('resize',sizeCanvases);
+
 function switchTab(t){
   document.querySelectorAll('.tab').forEach(function(el,i){el.classList.toggle('active',['spinner','cards'][i]===t);});
   document.querySelectorAll('.page').forEach(function(el){el.classList.remove('active');});
   document.getElementById('page-'+t).classList.add('active');
 }
-function enterFocus(){focusMode=true;document.body.classList.add('focus-mode');drawFocusWheel();}
-function exitFocus(){focusMode=false;document.body.classList.remove('focus-mode');drawWheel();}
+function enterFocus(){
+  focusMode=true;document.body.classList.add('focus-mode');
+  setTimeout(function(){sizeCanvases();},50);
+}
+function exitFocus(){
+  focusMode=false;document.body.classList.remove('focus-mode');
+  setTimeout(function(){sizeCanvases();},50);
+}
 document.getElementById('focus-mode-btn').onclick=enterFocus;
 
 function getAC(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx;}
+
 function tick(){
   try{
     var ac=getAC();
-    var buf=ac.createBuffer(1,Math.floor(ac.sampleRate*0.015),ac.sampleRate);
+    var len=Math.floor(ac.sampleRate*0.028);
+    var buf=ac.createBuffer(1,len,ac.sampleRate);
     var d=buf.getChannelData(0);
-    for(var i=0;i<d.length;i++){var x=1-i/d.length;d[i]=(Math.random()*2-1)*x*x*0.9;}
-    var src=ac.createBufferSource(),g=ac.createGain(),f=ac.createBiquadFilter();
-    f.type='bandpass';f.frequency.value=1800;f.Q.value=0.8;
-    src.buffer=buf;src.connect(f);f.connect(g);g.connect(ac.destination);
-    g.gain.setValueAtTime(0.55,ac.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.015);
+    for(var i=0;i<len;i++){
+      var t=i/ac.sampleRate;
+      var decay=Math.exp(-t*180);
+      var noise=(Math.random()*2-1);
+      var body=Math.sin(2*Math.PI*180*t);
+      d[i]=(noise*0.6+body*0.4)*decay;
+    }
+    var src=ac.createBufferSource();
+    var hp=ac.createBiquadFilter();hp.type='highpass';hp.frequency.value=300;
+    var pk=ac.createBiquadFilter();pk.type='peaking';pk.frequency.value=2000;pk.gain.value=10;pk.Q.value=1.5;
+    var g=ac.createGain();
+    src.buffer=buf;src.connect(hp);hp.connect(pk);pk.connect(g);g.connect(ac.destination);
+    g.gain.setValueAtTime(0.9,ac.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+0.028);
     src.start();
   }catch(e){}
 }
+
 function winSound(){
   try{
     var ac=getAC();
@@ -257,7 +294,7 @@ function drawWheelOnCtx(context,size,R){
     context.fillStyle=COLORS[i%COLORS.length];context.fill();
     context.strokeStyle='rgba(255,255,255,0.5)';context.lineWidth=1.5;context.stroke();
     context.save();context.translate(W,H);context.rotate(s+seg/2);context.textAlign='right';
-    var fs=items.length>20?13:items.length>10?15:17;
+    var fs=Math.max(11,Math.min(18,Math.floor(R/12)));
     context.font='bold '+fs+'px system-ui,sans-serif';
     context.shadowColor='rgba(0,0,0,0.7)';context.shadowBlur=6;
     context.strokeStyle='rgba(0,0,0,0.5)';context.lineWidth=3;context.lineJoin='round';
@@ -266,11 +303,12 @@ function drawWheelOnCtx(context,size,R){
     context.fillStyle='#fff';context.fillText(lbl,R-12,fs/3);
     context.restore();
   });
-  context.beginPath();context.arc(W,H,16,0,2*Math.PI);context.fillStyle='#fff';context.fill();
+  context.beginPath();context.arc(W,H,R*0.06,0,2*Math.PI);context.fillStyle='#fff';context.fill();
   context.strokeStyle='rgba(0,0,0,0.15)';context.lineWidth=2;context.stroke();
 }
-function drawWheel(){drawWheelOnCtx(cx,560,268);}
-function drawFocusWheel(){drawWheelOnCtx(fcx,520,248);}
+
+function drawWheel(){var s=normalCanvas.width;drawWheelOnCtx(ncx,s,s/2*0.96);}
+function drawFocusWheel(){var s=focusCanvas.width;drawWheelOnCtx(fcx,s,s/2*0.96);}
 function drawBoth(){drawWheel();if(focusMode)drawFocusWheel();}
 
 function renderList(){
@@ -293,6 +331,7 @@ function renderCalled(){
   var empty=document.getElementById('called-empty');
   list.innerHTML='';flist.innerHTML='';
   document.getElementById('called-count-badge').textContent=called.length;
+  document.getElementById('focus-called-count').textContent=called.length;
   empty.style.display=called.length?'none':'block';
   called.forEach(function(c){
     var b=document.createElement('span');b.className='called-badge';b.textContent=c;list.appendChild(b);
@@ -344,7 +383,9 @@ function doSpin(){
 }
 spinBtn.onclick=doSpin;
 focusSpinBtn.onclick=doSpin;
-drawWheel();renderList();renderCalled();
+
+// Init
+setTimeout(function(){sizeCanvases();renderList();renderCalled();},100);
 
 // ---- BINGO CARDS ----
 var decimals=['0.5','0.33','0.67','0.25','0.75','0.2','0.4','0.6','0.8','0.17','0.83','0.125','0.375','0.625','0.875','0.1','0.3','0.7','0.9','0.05','0.04','0.01','0.99','1.0'];
